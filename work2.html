@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.js"></script>
+    <title>Minimalist Quiz</title>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #ffecb3);
+            color: #37474f;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .quiz-card {
+            background: linear-gradient(to right, #ffffff, #f7f5f5);
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            font-size: 1rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #26c6da, #42a5f5);
+            color: white;
+        }
+        .pagination-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-container>
+                <!-- Header -->
+                <v-toolbar flat dark color="blue darken-3">
+                    <v-toolbar-title class="header">แบบทดสอบประเทศไทย</v-toolbar-title>
+                </v-toolbar>
+
+                <!-- Page 1: Welcome Screen -->
+                <div v-if="page === 1" class="text-center mt-12">
+                    <v-card class="quiz-card mx-auto" max-width="600" outlined>
+                        <v-card-title class="justify-center">
+                            ยินดีต้อนรับสู่แบบทดสอบ
+                        </v-card-title>
+                        <v-card-text>
+                            แบบทดสอบนี้มีทั้งหมด 20 ข้อ เพื่อทดสอบความรู้เกี่ยวกับประเทศไทย<br />
+                            กดปุ่มด้านล่างเพื่อเริ่มทำแบบทดสอบ
+                        </v-card-text>
+                        <v-card-actions class="justify-center">
+                            <v-btn class="btn-primary" @click="startQuiz">
+                                <v-icon left>mdi-play-circle</v-icon>
+                                เริ่มทำแบบทดสอบ
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </div>
+
+                <!-- Page 2: Quiz Questions -->
+                <div v-if="page === 2" class="mt-12">
+                    <v-card class="quiz-card mx-auto" max-width="800" outlined>
+                        <v-card-title>ข้อที่ {{ currentQuestionIndex + 1 }}</v-card-title>
+                        <v-card-text>
+                            <div v-html="currentQuestion.title" class="mb-3"></div>
+                            <v-radio-group v-model="answers[currentQuestionIndex]" class="mt-3">
+                                <v-radio
+                                    v-for="(opt, j) in currentQuestion.options"
+                                    :key="j"
+                                    :label="opt"
+                                    :value="j + 1"
+                                    color="blue"
+                                ></v-radio>
+                            </v-radio-group>
+                        </v-card-text>
+                    </v-card>
+
+                    <div class="text-center mt-4 d-flex justify-center" style="gap: 16px;">
+                        <v-btn @click="prevQuestion" :disabled="currentQuestionIndex === 0" class="btn-primary">
+                            <v-icon left>mdi-arrow-left</v-icon> ย้อนกลับ
+                        </v-btn>
+                        <v-btn
+                            v-if="currentQuestionIndex < qlist.length - 1"
+                            @click="nextQuestion"
+                            class="btn-primary"
+                        >
+                            ถัดไป <v-icon right>mdi-arrow-right</v-icon>
+                        </v-btn>
+                        <v-btn
+                            v-else
+                            @click="grading"
+                            class="btn-primary"
+                        >
+                            <v-icon left>mdi-check-circle</v-icon> ตรวจคำตอบ
+                        </v-btn>
+                    </div>
+                    
+
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <v-pagination
+                            v-model="currentQuestionIndex"
+                            :length="qlist.length"
+                            circle
+                        ></v-pagination>
+                    </div>
+                </div>
+
+                <!-- Page 3: Results -->
+                <div v-if="page === 3" class="text-center mt-12">
+                    <v-card class="quiz-card mx-auto" max-width="600" outlined>
+                        <v-card-title class="justify-center">
+                            คุณได้คะแนน {{ score }} / {{ qlist.length }}
+                        </v-card-title>
+                        <v-card-text>
+                            ขอบคุณที่เข้าร่วมแบบทดสอบ!<br />
+                            หากต้องการทำใหม่ กดปุ่มด้านล่าง
+                        </v-card-text>
+                        <v-card-actions class="justify-center">
+                            <v-btn class="btn-primary" @click="restart">
+                                <v-icon left>mdi-reload</v-icon>
+                                เริ่มใหม่
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </div>
+            </v-container>
+        </v-app>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        const { createVuetify } = Vuetify;
+
+        const vuetify = createVuetify();
+
+        const app = createApp({
+            data() {
+                return {
+                    page: 1,
+                    qlist: [],
+                    answers: [],
+                    currentQuestionIndex: 0,
+                    score: 0,
+                };
+            },
+            computed: {
+                currentQuestion() {
+                    return this.qlist[this.currentQuestionIndex];
+                },
+            },
+            mounted() {
+                this.load_data();
+            },
+            methods: {
+                async load_data() {
+                    const res = await fetch("quiz2.json");
+                    this.qlist = await res.json();
+                    this.answers = Array(this.qlist.length).fill(null);
+                },
+                startQuiz() {
+                    this.page = 2;
+                },
+                nextQuestion() {
+                    if (this.currentQuestionIndex < this.qlist.length - 1) {
+                        this.currentQuestionIndex++;
+                    }
+                },
+                prevQuestion() {
+                    if (this.currentQuestionIndex > 0) {
+                        this.currentQuestionIndex--;
+                    }
+                },
+                grading() {
+                    this.score = this.qlist.reduce(
+                        (acc, q, i) =>
+                            acc + (this.answers[i] === q.answer ? 1 : 0),
+                        0
+                    );
+                    this.page = 3;
+                },
+                restart() {
+                    this.page = 1;
+                    this.currentQuestionIndex = 0;
+                    this.answers = Array(this.qlist.length).fill(null);
+                    this.score = 0;
+                },
+            },
+        });
+
+        app.use(vuetify).mount("#app");
+    </script>
+</body>
+</html>
