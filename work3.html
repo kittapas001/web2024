@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* Global Colors */
+      :root {
+        --primary-color: #a594f9;
+        --secondary-color: #cdc1ff;
+        --background-color: #f5efff;
+        --accent-color: #e5d9f2;
+        --text-color: #4a4a4a;
+        --white-color: #ffffff;
+      }
+
+      body {
+        background-color: var(--background-color);
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .card {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: var(--white-color);
+      }
+
+      .card-header {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        padding: 20px;
+        text-align: center;
+        position: relative;
+      }
+
+      .card-header h3 {
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .card-header i {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 1.5rem;
+      }
+
+      .btn-primary, .btn-success {
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 10px 20px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        border: none;
+        color: var(--white-color);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--accent-color);
+        transform: scale(1.05);
+      }
+
+      .btn-success {
+        background-color: var(--secondary-color);
+        border: none;
+        color: var(--white-color);
+      }
+
+      .btn-success:hover {
+        background-color: var(--accent-color);
+        transform: scale(1.05);
+      }
+
+      .quiz-question {
+        padding: 15px;
+        background: var(--white-color);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .quiz-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: var(--white-color);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid var(--accent-color);
+      }
+
+      .quiz-button:hover {
+        background-color: var(--accent-color);
+        transform: scale(1.05);
+      }
+
+      .quiz-button i {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+      }
+
+      .result-message {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+      .quiz-question {
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.quiz-question.answered {
+  border-left: 5px solid var(--primary-color);
+}
+
+.quiz-question.unanswered {
+  border-left: 5px solid #ff6666; /* สีแดงสำหรับคำถามที่ยังไม่ได้ตอบ */
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="myapp" class="container p-4"></div>
+    <script type="text/babel">
+    class App extends React.Component {
+  state = {
+    quizzes: [],       // ข้อมูลแบบทดสอบ
+    selectedQuiz: null, // แบบทดสอบที่เลือก
+    answers: {},       // คำตอบที่ผู้ใช้เลือก
+    score: 0,          // คะแนน
+    status: "menu",    // สถานะ: menu, quiz, result
+    valid: false,      // ตรวจสอบว่าตอบครบทุกข้อ
+  };
+
+  async componentDidMount() {
+    const response = await fetch("quiz3.json");
+    const quizzes = await response.json();
+    this.setState({ quizzes });
+  }
+
+  handleStartQuiz = (quiz) => {
+    this.setState({ selectedQuiz: quiz, status: "quiz" });
+  };
+
+  validate = () => {
+    const { selectedQuiz, answers } = this.state;
+    const valid = selectedQuiz.questions.every((_, index) => answers[index]);
+    this.setState({ valid });
+  };
+
+  handleChange = (questionIndex, optionIndex) => {
+    const answers = { ...this.state.answers };
+    answers[questionIndex] = optionIndex;
+    this.setState({ answers }, this.validate); // ตรวจสอบว่าตอบครบทุกข้อ
+  };
+
+  checkAnswer = () => {
+    const { selectedQuiz, answers } = this.state;
+    const score = selectedQuiz.questions.reduce((total, question, index) => {
+      return total + (answers[index] === question.answer ? 1 : 0);
+    }, 0);
+    this.setState({ score, status: "result" });
+  };
+
+  render() {
+    const { quizzes, selectedQuiz, answers, score, status, valid } = this.state;
+
+    return (
+      <div className="card">
+        <div className="card-header">
+          <i className="fas fa-graduation-cap"></i>
+          <h3>แบบทดสอบออนไลน์</h3>
+        </div>
+        <div className="card-body">
+          {status === "menu" && (
+            <div>
+              <h5>เลือกรายวิชา:</h5>
+              <div className="icon-grid">
+                {quizzes.map((quiz) => (
+                  <div
+                    key={quiz.id}
+                    className="quiz-button"
+                    onClick={() => this.handleStartQuiz(quiz)}
+                  >
+                    <i className={`fas fa-${quiz.icon}`}></i>
+                    <span>{quiz.subject}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {status === "quiz" && selectedQuiz && (
+            <div>
+              {selectedQuiz.questions.map((question, index) => (
+                <div key={index} className="quiz-question">
+                  <h6>{index + 1}. {question.title}</h6>
+                  {question.options.map((option, optionIndex) => (
+                    <div key={optionIndex}>
+                      <input
+                        type="radio"
+                        name={`question-${index}`}
+                        checked={answers[index] === optionIndex + 1}
+                        onChange={() => this.handleChange(index, optionIndex + 1)}
+                      />{" "}
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <button
+                className="btn btn-success mt-3"
+                onClick={this.checkAnswer}
+                disabled={!valid} // ปุ่มจะทำงานเมื่อทำโจทย์ครบ
+              >
+                ตรวจคำตอบ
+              </button>
+            </div>
+          )}
+          {status === "result" && (
+            <div className="text-center">
+              <h5 className="result-message">
+                คุณได้คะแนน {score}/{selectedQuiz.questions.length}
+              </h5>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={() => this.setState({ status: "menu", answers: {} })}
+              >
+                กลับไปหน้าเมนู
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+const container = document.getElementById("myapp");
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
