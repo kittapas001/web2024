@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work 5  CameraTest </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #fff0f6;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff5f9, var(--secondary-color));
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding: 3rem 1rem;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 2.8rem;
+        }
+
+        .media-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.1);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: white;
+            margin-bottom: 2rem;
+        }
+
+        .media-card:hover {
+            transform: translateY(-3px);
+        }
+
+        img, video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .source-code {
+            text-align: center;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .source-code:hover {
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate-up">
+        <h1>WORK 05</h1>
+        
+        <div class="media-card">
+            <img src="work5.png" alt="Project Image" class="img-fluid">
+        </div>
+
+        <div class="media-card">
+            <video class="img-fluid" controls>
+                <source src="demowork5.mov" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="source-code">
+            <h2 class="mb-0">
+                <i class="bi bi-file-code-fill me-2" style="color: var(--primary-color);"></i>
+                Source Code Right Click 
+            </h2>
+        </div>
+    </div>
+
+    <!-- Source Code -->
+
+    <!-- <import * as React from 'react';
+import { Text, View, StyleSheet, Button, ImageBackground, TouchableOpacity } from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+
+import image from './assets/pink2.jpg';
+
+function FaceView() {
+  const [facing, setFacing] = React.useState('front');
+  const [permission, requestPermission] = useCameraPermissions();
+  const [zoom, setZoom] = React.useState(0.5);
+  const [sound, setSound] = React.useState();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync();
+    setSound(sound);
+    await sound.playAsync();
+  }
+
+  React.useEffect(() => {
+    return sound ? () => sound.unloadAsync() : undefined;
+  }, [sound]);
+
+  const toggleFace = () => {
+    setFacing(facing === 'front' ? 'back' : 'front');
+    playSound();
+  };
+
+  const Zoom = (z) => {
+    setZoom(Math.max(0, Math.min(1, zoom + z)));
+  };
+
+  if (!permission) return <View />;
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.permissionText}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="Grant Permission" />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.cameraContainer}>
+      <CameraView style={styles.camera} facing={facing} zoom={zoom}>
+        <View style={styles.controls}>
+          <TouchableOpacity style={styles.button} onPress={toggleFace}>
+            <Ionicons name="camera-reverse" size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => Zoom(-0.1)}>
+            <Ionicons name="remove" size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => Zoom(0.1)}>
+            <Ionicons name="add" size={30} color="white" />
+          </TouchableOpacity>
+        </View>
+      </CameraView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#F8E8EE',
+  },
+  cameraContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    overflow: 'hidden',
+    backgroundColor: '#FFD1DC',
+    width: '90%',
+    height: '70%',
+    alignSelf: 'center',
+    marginVertical: 20,
+  },
+  camera: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 30,
+    overflow: 'hidden',
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    position: 'absolute',
+    bottom: 20,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: '#FFB6C1',
+    padding: 15,
+    borderRadius: 50,
+    elevation: 5,
+    shadowColor: '#000',
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  topText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    backgroundColor: '#FF99CC',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 80,
+  },
+  bottomText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    backgroundColor: '#FF99CC',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 30,
+  },
+  permissionText: {
+    textAlign: 'center',
+    color: '#333',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+});
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container} edges={['left', 'right']}>
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <Text style={styles.topText}>Test Camera App</Text>
+          <FaceView />
+          <Text style={styles.bottomText}>653380173-1 Kittapas Sukawong</Text>
+        </ImageBackground>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>
