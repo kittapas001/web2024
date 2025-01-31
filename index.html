@@ -12,18 +12,23 @@
     body {
       background-color: #f4f7f6;
       color: #333;
+      font-family: 'Arial', sans-serif;
     }
 
     h1 {
       background-color: #4CAF50;
       color: white;
-      padding: 20px;
+      padding: 30px;
       border-radius: 8px;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     a {
       color: white;
       text-decoration: none;
+      font-size: 1.2rem;
     }
 
     a:hover {
@@ -32,57 +37,66 @@
 
     .custom-card {
       transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 10px;
     }
 
     .custom-card:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-body {
+      text-align: center;
     }
 
     footer {
-      margin-top: 40px;
+      margin-top: 50px;
       font-style: italic;
       color: #555;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
-  <div class="container text-center mt-5">
-    <h1 class="mb-4">วิชา SC362202 MobileWeb</h1>
+  <div class="container">
+    <h1 class="text-center">วิชา SC362202 MobileWeb</h1>
     <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="card custom-card bg-primary text-white mb-3">
+      <div class="col-md-4 mb-4">
+        <div class="card custom-card bg-primary text-white">
           <div class="card-body">
             <a href="work1.html" target="_blank">งานที่ 1</a>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card custom-card bg-success text-white mb-3">
+      <div class="col-md-4 mb-4">
+        <div class="card custom-card bg-success text-white">
           <div class="card-body">
             <a href="work2.html" target="_blank">งานที่ 2</a>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card custom-card bg-info text-white mb-3">
+      <div class="col-md-4 mb-4">
+        <div class="card custom-card bg-info text-white">
           <div class="card-body">
-             <a href="work3.html" target="_blank">งานที่ 3</a>
+            <a href="work3.html" target="_blank">งานที่ 3</a>
           </div>
         </div>
       </div>
-       <div class="col-md-4">
-        <div class="card custom-card bg-info text-white mb-3">
+      <div class="col-md-4 mb-4">
+        <div class="card custom-card bg-warning text-white">
           <div class="card-body">
-             <a href="work4.html" target="_blank">งานที่ 4</a>
+            <a href="work4.html" target="_blank">งานที่ 4</a>
           </div>
         </div>
       </div>
-    </div>
-      <div class="col-md-4">
-        <div class="card custom-card bg-info text-white mb-3">
+      <div class="col-md-4 mb-4">
+        <div class="card custom-card bg-danger text-white">
           <div class="card-body">
-             <a href="work5.html" target="_blank">งานที่ 5</a>
+            <a href="work5.html" target="_blank">งานที่ 5</a>
           </div>
         </div>
       </div>
