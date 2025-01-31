@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work 5  CameraTest </title>
+    <title>Work 5 Test Camera</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -48,11 +48,28 @@
             transform: translateY(-3px);
         }
 
-        img, video {
+        img {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 20px;
+            padding: 15px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         h2 {
@@ -90,44 +107,43 @@
             box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
             transform: translateY(-2px);
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-up {
-            animation: fadeInUp 0.8s ease-out;
-        }
     </style>
 </head>
 <body>
-    <div class="container animate-up">
-        <h1>WORK 05</h1>
+    <div class="container">
+        <h1>WORK 05  Test Camera </h1>
         
+        <!-- Image Section -->
         <div class="media-card">
             <img src="work5.png" alt="Project Image" class="img-fluid">
         </div>
 
+        <!-- Video Section -->
         <div class="media-card">
-            <video class="img-fluid" controls>
-                <source src="demowork5.mov" type="video/mp4">
-            </video>
+            <div class="video-container text-center">
+                <iframe src="https://drive.google.com/file/d/1pPIcdkUXM7w7jxgjvb_La_wyc0J5i0-A/preview" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen" 
+                        style="width: 100%; height: 431px;">
+                </iframe>
+            </div>
         </div>
+        
 
+
+        <!-- Source Code Section -->
         <div class="source-code">
             <h2 class="mb-0">
                 <i class="bi bi-file-code-fill me-2" style="color: var(--primary-color);"></i>
-                Source Code Right Click 
+                Source Code Right Click
             </h2>
         </div>
     </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>
 
     <!-- Source Code -->
 
@@ -277,11 +293,4 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</body>
-</html>
+   
