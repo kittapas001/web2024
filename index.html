@@ -1,112 +1,307 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>วิชา SC362202 MobileWeb</title>
+  <title>Portfolio</title>
   <!-- Bootstrap CSS -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
     body {
-      background-color: #f4f7f6;
-      color: #333;
-      font-family: 'Arial', sans-serif;
+      background-color: #e0f7f5;
+      color: #1D201F;
+      font-family: 'Kanit', sans-serif;
     }
 
-    h1 {
-      background-color: #4CAF50;
-      color: white;
+    .profile-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       padding: 30px;
-      border-radius: 8px;
-      margin-bottom: 40px;
-      font-size: 2.5rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .custom-card {
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: 10px;
-    }
-
-    .custom-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-body {
       text-align: center;
+      border: 3px solid #00D1AC;
     }
 
-    footer {
-      margin-top: 50px;
-      font-style: italic;
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 5px solid #00D1AC;
+    }
+
+    .profile-info h2 {
+      font-size: 2rem;
+      color: #1D201F;
+      font-weight: 700;
+    }
+
+    .profile-info p {
       color: #555;
-      text-align: center;
+      margin-bottom: 15px;
     }
 
-    .container {
-      margin-top: 50px;
+    .contact-info p {
+      margin: 10px 0;
+      font-size: 1rem;
     }
+
+    .contact-info i {
+      margin-right: 10px;
+      color: #00D1AC;
+    }
+
+    .download-btn {
+      background-color: #00D1AC;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    .download-btn:hover {
+      background-color: #1D201F;
+      transform: scale(1.05);
+    }
+
+    .about-section,
+    .skill-section {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-top: 20px;
+      border-left: 5px solid #00D1AC;
+    }
+
+    .about-section h3,
+    .skill-section h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #00D1AC;
+      font-weight: 700;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #f9fbfc;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 2px solid #00D1AC;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-card h5 a {
+      text-decoration: none;
+      color: #00D1AC;
+      font-weight: 600;
+    }
+
+    .service-card h5 a:hover {
+      color: #1D201F;
+    }
+
+    .social-icons a {
+      color: #00D1AC;
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #1D201F;
+    }
+
+    .progress {
+      height: 25px;
+      background-color: #f3f3f3;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar {
+      border-radius: 20px;
+      text-align: left;
+      padding-left: 10px;
+      line-height: 25px;
+      font-weight: 600;
+    }
+
+    .graphic-skills-chart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .chart {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #007bff 0% 20%,
+        #6f42c1 20% 40%,
+        #fd7e14 40% 60%,
+        #20c997 60% 80%,
+        #dc3545 80% 100%
+      );
+      position: relative;
+    }
+
+    .percentage-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: #1D201F;
+      font-weight: 700;
+    }
+
+    .chart-labels {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .chart-labels li {
+      list-style: none;
+      margin-bottom: 5px;
+    }
+
+    .chart-labels span {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+    }
+    
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1 class="text-center">วิชา SC362202 MobileWeb</h1>
-    <div class="row justify-content-center">
-      <div class="col-md-4 mb-4">
-        <div class="card custom-card bg-primary text-white">
-          <div class="card-body">
-            <a href="work1.html" target="_blank">งานที่ 1</a>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-card">
+          <img src="104441.jpeg" alt="Profile" class="profile-img">
+          <div class="profile-info">
+            <h2>กฤตภาส สุกาวงค์</h2>
+            <p>653380173-1</p>
+            <div class="social-icons d-flex justify-content-center">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="contact-info">
+            <p><i class="fas fa-birthday-cake"></i> <strong>วันเกิด:</strong> 14 มีนาคม 2546</p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>คณะ:</strong> วิทยาลัยการคอมพิวเตอร์</p>
+            <p><i class="fas fa-envelope"></i> <strong>สาขา:</strong> เทคโนโลยีสารสนเทศ</p>
+            <p><i class="fas fa-phone"></i> <strong>รายวิชา:</strong> SC310006 362202 MobileWeb</p>
+            <p><i class="fas fa-user"></i> <strong>อีเมล:</strong> Kittapas.su@kkumail.com</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <div class="card custom-card bg-success text-white">
-          <div class="card-body">
-            <a href="work2.html" target="_blank">งานที่ 2</a>
+
+      <div class="col-md-8">
+        <div class="about-section">
+          <h3>Work</h3>
+          <div class="services">
+            <div class="service-card"><h5><a href="work1.html">Work 1</a></h5></div>
+            <div class="service-card"><h5><a href="work2.html">Work 2</a></h5></div>
+            <div class="service-card"><h5><a href="work3.html">Work 3</a></h5></div>
+            <div class="service-card"><h5><a href="work4.html">Work 4</a></h5></div>
+            <div class="service-card"><h5><a href="work5.html">Work 5</a></h5></div>
+            <div class="service-card"><h5><a href="work6_vue.html">Work 6</a></h5></div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card custom-card bg-info text-white">
-          <div class="card-body">
-            <a href="work3.html" target="_blank">งานที่ 3</a>
-          </div>
+
+        <div class="skill-section">
+          <h3>Programming Skills</h3>
+          <div class="progress"><div class="progress-bar bg-info" style="width: 90%;">framework design - 90%</div></div>
+          <div class="progress"><div class="progress-bar bg-info" style="width: 80%;">javascript - 80%</div></div>
+          <div class="progress"><div class="progress-bar bg-success" style="width: 92%;">HTML - 92%</div></div>
+          <div class="progress"><div class="progress-bar bg-success" style="width: 80%;">CSS - 80%</div></div>
+          <div class="progress"><div class="progress-bar bg-danger" style="width: 50%;">node js - 50%</div></div>
         </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card custom-card bg-warning text-white">
-          <div class="card-body">
-            <a href="work4.html" target="_blank">งานที่ 4</a>
+
+        <div class="skill-section">
+          <h3>Graphic Skills</h3>
+          <div class="graphic-skills-chart">
+            <div class="chart">
+              <div class="percentage-label"></div> <!-- Modify percentage here -->
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card custom-card bg-danger text-white">
-          <div class="card-body">
-            <a href="work5.html" target="_blank">งานที่ 5</a>
-          </div>
+          <ul class="chart-labels">
+            <li><span style="background-color: #007bff;"></span>Adobe Photoshop - <strong class="percentage" data-percent="85">85%</strong></li>
+            <li><span style="background-color: #6f42c1;"></span>Adobe Illustrator - <strong class="percentage" data-percent="75">75%</strong></li>
+            <li><span style="background-color: #fd7e14;"></span>Adobe InDesign - <strong class="percentage" data-percent="65">65%</strong></li>
+            <li><span style="background-color: #20c997;"></span>Figma - <strong class="percentage" data-percent="90">90%</strong></li>
+            <li><span style="background-color: #dc3545;"></span>Canva - <strong class="percentage" data-percent="80">80%</strong></li>
+          </ul>
+          
         </div>
       </div>
     </div>
-    <footer>โดย กฤตภาส สุกาวงค์ 653380173-1</footer>
   </div>
 
   <!-- Bootstrap JS -->
-  <script 
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+  // Progress Bar Animation
+  document.addEventListener("DOMContentLoaded", function () {
+    let progressBars = document.querySelectorAll(".progress-bar");
+    
+    progressBars.forEach((bar) => {
+      let percentage = bar.style.width;
+      bar.style.width = "0%"; // เริ่มจาก 0%
+      
+      setTimeout(() => {
+        bar.style.transition = "width 1.5s ease-in-out";
+        bar.style.width = percentage;
+      }, 300);
+    });
+
+    // Graphic Skills Chart Animation
+    let chart = document.querySelector(".chart");
+    let percentageLabel = document.querySelector(".percentage-label");
+
+    if (chart && percentageLabel) {
+      let degrees = 0;
+      let targetDegrees = 360; // หมุนเต็มรอบ
+      let step = 10; // หมุนทีละ 10 องศา
+      let interval = setInterval(() => {
+        degrees += step;
+        chart.style.transform = `rotate(${degrees}deg)`;
+
+        if (degrees >= targetDegrees) {
+          clearInterval(interval);
+          chart.style.transform = `rotate(0deg)`; // กลับสู่ตำแหน่งเดิม
+        }
+      }, 50);
+    }
+  });
+</script>
+
 </html>
